@@ -7,6 +7,7 @@ carImg.src = "/images/car.png";
 const roadImg = new Image();
 roadImg.src = "/images/road.png";
 let id = null
+let score = 0
 class Car {
   constructor(img, x, y, w, h) {
     this.img = img;
@@ -22,6 +23,8 @@ class Car {
 
 let miniCooper = new Car(carImg, 250, 600, 50, 100);
 
+let bullets = []
+
 window.onkeydown = function (event) {
   console.log(event.key);
   switch (event.key) {
@@ -31,6 +34,9 @@ window.onkeydown = function (event) {
     case "ArrowRight":
       miniCooper.x += 7;
       break;
+    case " ":
+        bullets.push(new Bullet(miniCooper.x, miniCooper.y, 10, 10))
+        break;
   }
 };
 
@@ -40,10 +46,11 @@ class Obstacle {
     this.y = y;
     this.w = w;
     this.h = h;
+    this.color = "#"+((1<<24)*Math.random()|0).toString(16);
   }
 
   drawObstacle = () => {
-    ctx.fillStyle = "red";
+    ctx.fillStyle = this.color;
     ctx.fillRect(this.x, this.y++, this.w, this.h);
   };
   checkCollision = () => {
@@ -52,7 +59,31 @@ class Obstacle {
       miniCooper.y < this.y + this.h &&
       miniCooper.y + miniCooper.h > this.y) {
       window.cancelAnimationFrame(id)
+      alert(score)
     }
+    for(let bullet of bullets){
+      if (bullet.x < this.x + this.w &&
+        bullet.x + bullet.w > this.x &&
+        bullet.y < this.y + this.h &&
+        bullet.y + bullet.h > this.y) {
+        obstacless.splice(obstacless.indexOf(this), 1)
+        bullets.splice(bullets.indexOf(bullet), 1)
+      }
+    }
+  }
+}
+
+class Bullet {
+  constructor(x, y, w, h) {
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
+  }
+  drawBullet(){
+    ctx.fillStyle = "black"
+    ctx.fillRect(this.x, this.y, this.w, this.h)
+    this.y--
   }
 }
 
@@ -84,8 +115,11 @@ function animate() {
   for (obs of obstacless) {
     obs.drawObstacle();
     obs.checkCollision();
-
   }
-
+  for (bullet of bullets) {
+    bullet.drawBullet();
+    //bullet.checkCollision();
+  }
+score++
 }
 animate();
