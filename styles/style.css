@@ -1,6 +1,11 @@
 body {
   padding: 0;
   text-align: center;
+  overflow: hidden;
+}
+
+canvas {
+  border: 1px solid black;
 }
 
 .game-intro {
