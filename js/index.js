@@ -6,7 +6,7 @@ const carImg = new Image();
 carImg.src = "/images/car.png";
 const roadImg = new Image();
 roadImg.src = "/images/road.png";
-
+let id = null
 class Car {
   constructor(img, x, y, w, h) {
     this.img = img;
@@ -46,6 +46,14 @@ class Obstacle {
     ctx.fillStyle = "red";
     ctx.fillRect(this.x, this.y++, this.w, this.h);
   };
+  checkCollision = () => {
+    if (miniCooper.x < this.x + this.w &&
+      miniCooper.x + miniCooper.w > this.x &&
+      miniCooper.y < this.y + this.h &&
+      miniCooper.y + miniCooper.h > this.y) {
+      window.cancelAnimationFrame(id)
+    }
+  }
 }
 
 let obstacless = [
@@ -58,14 +66,26 @@ setInterval(function () {
   obstacless.push(new Obstacle(random(), 0, 100, 20));
 }, 1000);
 
+var rect1 = { x: 5, y: 5, width: 50, height: 50 }
+var rect2 = { x: 20, y: 10, width: 10, height: 10 }
+
+function collision() {
+
+}
+
+// collision detected!
+
+
 function animate() {
-  window.requestAnimationFrame(animate);
+  id = window.requestAnimationFrame(animate);
   console.log("gameloop");
   ctx.drawImage(roadImg, 0, 0, canvas.width, canvas.height);
   miniCooper.drawCar();
   for (obs of obstacless) {
     obs.drawObstacle();
-  }
-}
+    obs.checkCollision();
 
+  }
+
+}
 animate();
