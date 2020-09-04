@@ -29,23 +29,24 @@ let bullets = []
 
 socket.on('carmove',(spaghooter)=>{
 console.log(spaghooter)
+switch (spaghooter.key) {
+  case "ArrowLeft":
+    miniCooper.x -= 7;
+    break;
+  case "ArrowRight":
+    miniCooper.x += 7;
+    break;
+  case " ":
+    bullets.push(new Bullet(miniCooper.x, miniCooper.y, 10, 10))
+    break;
+}
 })
 
 
 window.onkeydown = function (event) {
   console.log(event.key);
   socket.emit("keypressed", {key:event.key})
-  // switch (event.key) {
-  //   case "ArrowLeft":
-  //     miniCooper.x -= 7;
-  //     break;
-  //   case "ArrowRight":
-  //     miniCooper.x += 7;
-  //     break;
-  //   case " ":
-  //     bullets.push(new Bullet(miniCooper.x, miniCooper.y, 10, 10))
-  //     break;
-  // }
+  
 };
 
 class Obstacle {
