@@ -1,0 +1,25 @@
+{
+  "name": "lab-canvas-racecar-2",
+  "version": "1.0.0",
+  "description": "![logo_ironhack_blue 7](https://user-images.githubusercontent.com/23629340/40541063-a07a0a8a-601a-11e8-91b5-2f13e4e6b441.png)",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FTWD-AUG-2020/lab-canvas-race-car.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FTWD-AUG-2020/lab-canvas-race-car/issues"
+  },
+  "homepage": "https://github.com/FTWD-AUG-2020/lab-canvas-race-car#readme",
+  "dependencies": {
+    "express": "^4.15.2",
+    "socket.io": "^2.3.0"
+  }
+}
