@@ -26,19 +26,26 @@ let miniCooper = new Car(carImg, 250, 600, 50, 100);
 
 let bullets = []
 
+
+socket.on('carmove',(spaghooter)=>{
+console.log(spaghooter)
+})
+
+
 window.onkeydown = function (event) {
   console.log(event.key);
-  switch (event.key) {
-    case "ArrowLeft":
-      miniCooper.x -= 7;
-      break;
-    case "ArrowRight":
-      miniCooper.x += 7;
-      break;
-    case " ":
-      bullets.push(new Bullet(miniCooper.x, miniCooper.y, 10, 10))
-      break;
-  }
+  socket.emit("keypressed", {key:event.key})
+  // switch (event.key) {
+  //   case "ArrowLeft":
+  //     miniCooper.x -= 7;
+  //     break;
+  //   case "ArrowRight":
+  //     miniCooper.x += 7;
+  //     break;
+  //   case " ":
+  //     bullets.push(new Bullet(miniCooper.x, miniCooper.y, 10, 10))
+  //     break;
+  // }
 };
 
 class Obstacle {
@@ -120,7 +127,7 @@ function collision() {
 
 function animate() {
   id = window.requestAnimationFrame(animate);
-  console.log("gameloop");
+  
   ctx.drawImage(roadImg, 0, 0, canvas.width, canvas.height);
   miniCooper.drawCar();
   for (obs of obstacless) {
