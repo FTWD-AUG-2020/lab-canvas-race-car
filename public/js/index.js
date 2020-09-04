@@ -1,3 +1,4 @@
+const socket = io()
 const canvas = document.querySelector("canvas");
 canvas.width = 500;
 canvas.height = 700;
@@ -35,8 +36,8 @@ window.onkeydown = function (event) {
       miniCooper.x += 7;
       break;
     case " ":
-        bullets.push(new Bullet(miniCooper.x, miniCooper.y, 10, 10))
-        break;
+      bullets.push(new Bullet(miniCooper.x, miniCooper.y, 10, 10))
+      break;
   }
 };
 
@@ -46,7 +47,7 @@ class Obstacle {
     this.y = y;
     this.w = w;
     this.h = h;
-    this.color = "#"+((1<<24)*Math.random()|0).toString(16);
+    this.color = "#" + ((1 << 24) * Math.random() | 0).toString(16);
   }
 
   drawObstacle = () => {
@@ -61,7 +62,7 @@ class Obstacle {
       window.cancelAnimationFrame(id)
       alert(score)
     }
-    for(let bullet of bullets){
+    for (let bullet of bullets) {
       if (bullet.x < this.x + this.w &&
         bullet.x + bullet.w > this.x &&
         bullet.y < this.y + this.h &&
@@ -80,7 +81,7 @@ class Bullet {
     this.w = w;
     this.h = h;
   }
-  drawBullet(){
+  drawBullet() {
     ctx.fillStyle = "black"
     ctx.fillRect(this.x, this.y, this.w, this.h)
     this.y--
@@ -97,8 +98,18 @@ setInterval(function () {
   obstacless.push(new Obstacle(random(), 0, 100, 20));
 }, 1000);
 
-var rect1 = { x: 5, y: 5, width: 50, height: 50 }
-var rect2 = { x: 20, y: 10, width: 10, height: 10 }
+var rect1 = {
+  x: 5,
+  y: 5,
+  width: 50,
+  height: 50
+}
+var rect2 = {
+  x: 20,
+  y: 10,
+  width: 10,
+  height: 10
+}
 
 function collision() {
 
@@ -120,6 +131,6 @@ function animate() {
     bullet.drawBullet();
     //bullet.checkCollision();
   }
-score++
+  score++
 }
 animate();
