@@ -1,4 +1,4 @@
-const socket = io()
+const socket = io();
 const canvas = document.querySelector("canvas");
 canvas.width = 500;
 canvas.height = 700;
@@ -7,8 +7,8 @@ const carImg = new Image();
 carImg.src = "/images/car.png";
 const roadImg = new Image();
 roadImg.src = "/images/road.png";
-let id = null
-let score = 0
+let id = null;
+let score = 0;
 class Car {
   constructor(img, x, y, w, h) {
     this.img = img;
@@ -24,29 +24,24 @@ class Car {
 
 let miniCooper = new Car(carImg, 250, 600, 50, 100);
 
-let bullets = []
+let bullets = [];
 
-
-socket.on('carmove',(spaghooter)=>{
-console.log(spaghooter)
-switch (spaghooter.key) {
-  case "ArrowLeft":
-    miniCooper.x -= 7;
-    break;
-  case "ArrowRight":
-    miniCooper.x += 7;
-    break;
-  case " ":
-    bullets.push(new Bullet(miniCooper.x, miniCooper.y, 10, 10))
-    break;
-}
-})
-
+socket.on("carmove", (spaghooter) => {
+  switch (spaghooter.key) {
+    case "ArrowLeft":
+      miniCooper.x -= 7;
+      break;
+    case "ArrowRight":
+      miniCooper.x += 7;
+      break;
+    case " ":
+      bullets.push(new Bullet(miniCooper.x, miniCooper.y, 10, 10));
+      break;
+  }
+});
 
 window.onkeydown = function (event) {
-  console.log(event.key);
-  socket.emit("keypressed", {key:event.key})
-  
+  socket.emit("keypressed", { key: event.key });
 };
 
 class Obstacle {
@@ -55,7 +50,7 @@ class Obstacle {
     this.y = y;
     this.w = w;
     this.h = h;
-    this.color = "#" + ((1 << 24) * Math.random() | 0).toString(16);
+    this.color = "#" + (((1 << 24) * Math.random()) | 0).toString(16);
   }
 
   drawObstacle = () => {
@@ -63,23 +58,27 @@ class Obstacle {
     ctx.fillRect(this.x, this.y++, this.w, this.h);
   };
   checkCollision = () => {
-    if (miniCooper.x < this.x + this.w &&
+    if (
+      miniCooper.x < this.x + this.w &&
       miniCooper.x + miniCooper.w > this.x &&
       miniCooper.y < this.y + this.h &&
-      miniCooper.y + miniCooper.h > this.y) {
-      window.cancelAnimationFrame(id)
-      alert(score)
+      miniCooper.y + miniCooper.h > this.y
+    ) {
+      window.cancelAnimationFrame(id);
+      alert(score);
     }
     for (let bullet of bullets) {
-      if (bullet.x < this.x + this.w &&
+      if (
+        bullet.x < this.x + this.w &&
         bullet.x + bullet.w > this.x &&
         bullet.y < this.y + this.h &&
-        bullet.y + bullet.h > this.y) {
-        obstacless.splice(obstacless.indexOf(this), 1)
-        bullets.splice(bullets.indexOf(bullet), 1)
+        bullet.y + bullet.h > this.y
+      ) {
+        obstacless.splice(obstacless.indexOf(this), 1);
+        bullets.splice(bullets.indexOf(bullet), 1);
       }
     }
-  }
+  };
 }
 
 class Bullet {
@@ -90,9 +89,9 @@ class Bullet {
     this.h = h;
   }
   drawBullet() {
-    ctx.fillStyle = "black"
-    ctx.fillRect(this.x, this.y, this.w, this.h)
-    this.y--
+    ctx.fillStyle = "black";
+    ctx.fillRect(this.x, this.y, this.w, this.h);
+    this.y--;
   }
 }
 
@@ -110,25 +109,22 @@ var rect1 = {
   x: 5,
   y: 5,
   width: 50,
-  height: 50
-}
+  height: 50,
+};
 var rect2 = {
   x: 20,
   y: 10,
   width: 10,
-  height: 10
-}
+  height: 10,
+};
 
-function collision() {
-
-}
+function collision() {}
 
 // collision detected!
 
-
 function animate() {
   id = window.requestAnimationFrame(animate);
-  
+
   ctx.drawImage(roadImg, 0, 0, canvas.width, canvas.height);
   miniCooper.drawCar();
   for (obs of obstacless) {
@@ -139,6 +135,6 @@ function animate() {
     bullet.drawBullet();
     //bullet.checkCollision();
   }
-  score++
+  score++;
 }
 animate();
